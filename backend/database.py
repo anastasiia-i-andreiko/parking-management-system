@@ -1,25 +1,10 @@
-import json
-import os
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-# Файл, де зберігаються дані
-DB_PATH = os.path.join(os.path.dirname(__file__), "parking_data.json")
+DATABASE_URL = "postgresql://neondb_owner:npg_LWpXyJz91RdV@ep-aged-glitter-anl7fwjn.c-6.us-east-1.aws.neon.tech/neondb?sslmode=require"
 
-def load_data():
-    """Завантажує список машин із JSON файлу"""
-    if not os.path.exists(DB_PATH):
-        return []
-    try:
-        with open(DB_PATH, "r", encoding="utf-8") as file:
-            return json.load(file)
-    except (json.JSONDecodeError, Exception):
-        return []
+engine = create_engine(DATABASE_URL)
 
-def save_data(data):
-    """Зберігає список машин у JSON файл"""
-    try:
-        with open(DB_PATH, "w", encoding="utf-8") as file:
-            json.dump(data, file, indent=4, ensure_ascii=False)
-        return True
-    except Exception as e:
-        print(f"Помилка при збереженні: {e}")
-        return False
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()

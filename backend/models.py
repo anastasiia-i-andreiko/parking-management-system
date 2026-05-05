@@ -1,18 +1,11 @@
+from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
+from .database import Base
 
-class ParkingRecord:
-    def __init__(self, plate, v_type):
-        # Номер авто завжди ВЕЛИКИМИ літерами!!!
-        self.plate = plate.upper()
-        self.v_type = v_type             # "car" або "motorcycle"
-        self.entry_time = datetime.now() # Час заїзду (автоматично)
-        self.status = "parked"           # Статус на початку
+class Car(Base):
+    __tablename__ = "cars"
 
-    def to_dict(self):
-        """Перетворення даних в словник для передачі на фронтенд"""
-        return {
-            "plate": self.plate,
-            "v_type": self.v_type,
-            "entry_time": self.entry_time.strftime("%H:%M:%S"),
-            "status": self.status
-        }
+    id = Column(Integer, primary_key=True, index=True)
+    plate_number = Column(String, unique=True, index=True, nullable=False)
+    entry_time = Column(DateTime, default=datetime.utcnow)
+    status = Column(String, default="parked") # 'parked' або 'left'

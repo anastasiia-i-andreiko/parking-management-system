@@ -1,38 +1,48 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from database import load_data, save_data
-from logic import validate_plate, get_stats
+from backend.database import SessionLocal, engine, Base
+from backend.logic import get_stats, get_all_cars, add_car
+
+Base.metadata.create_all(bind=engine)
 
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route('/api/stats', methods=['GET'])
-def stats():
-    """Повертає статистику парковки для фронтенду"""
-    data = load_data()
-    return jsonify(get_stats(data))
+def stats_route():
+    db = SessionLocal()
+    try:
+        stats = get_stats(db)
+        return jsonify(stats)
+    finally:
+        db.close()
+
 
 @app.route('/api/cars', methods=['GET'])
-def get_cars():
-    """Повертає список усіх машин у форматі JSON"""
-    return jsonify(load_data())
+def cars_route():
+    db = SessionLocal()
+    try:
+        cars = get_all_cars(db)
+        return jsonify(cars)
+    finally:
+        db.close()
+
 
 @app.route('/api/park', methods=['POST'])
-def park_car():
-    """Додає нове авто: отримує номер та тип від фронтенда"""
-    req = request.json
-    plate = req.get('plate', '').upper()
-    v_type = req.get('v_type', 'car')
+def park_route():
+    data = request.json
+    plate = data.get('plate_number')
 
-    if not validate_plate(plate):
-        return jsonify({"error": "Невірний формат номера"}), 400
+    db = SessionLocal()
+    try:
+        new_car, error = add_car(db, plate)
+        if error:
+            return jsonify({"error": error}), 400
+        return jsonify({"message": f"Car {plate} parked", "id": new_car.id}), 201
+    finally:
+        db.close()
 
-    data = load_data()
-    new_record = {"plate": plate, "v_type": v_type, "status": "parked"}
-    data.append(new_record)
-    save_data(data)
-    return jsonify({"message": "Авто додано", "car": new_record}), 201
 
 if __name__ == '__main__':
-    print("Сервер працює на http://127.0.0.1:5000")
     app.run(debug=True, port=5000)
