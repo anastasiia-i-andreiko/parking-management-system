@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Парковка 🚗</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Керування парковкою</h1>
+    <div class="container">
+        <input type="text" id="plate" placeholder="Номер авто">
+        <select id="type">
+            <option value="car">🚗 Легкова</option>
+            <option value="motorcycle">🏍️ Мотоцикл</option>
+        </select>
+        <button id="addBtn">Додати авто</button>
+    </div>
+    <table id="carsTable">
+        <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Тип</th>
+                <th>Статус</th>
+                <th>Дія / Час</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="app.js"></script>
+</body>
+</html>
