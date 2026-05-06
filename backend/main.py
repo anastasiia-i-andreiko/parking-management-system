@@ -31,21 +31,21 @@ def park_car():
 @app.route('/api/cars', methods=['GET'])
 def get_cars():
     db = SessionLocal()
-    search = request.args.get('search')
-    # Викликаємо логіку отримання списку
-    cars = logic.get_filtered_cars(db, search)
-
-    result = []
-    for c in cars:
-        result.append({
-            "id": c.id,
-            "plate": c.plate_number,
-            "type": c.vehicle_type,
-            "status": c.status
-        })
-    db.close()
-    return jsonify(result)
-
+    try:
+        cars = logic.get_filtered_cars(db)
+        result = []
+        for c in cars:
+            result.append({
+                "id": c.id,
+                "plate": c.plate_number,
+                "type": c.vehicle_type,
+                "status": c.status,
+                # Форматуємо час: якщо є — показуємо, якщо немає — прочерк
+                "entry": c.entry_time.strftime('%H:%M') if c.entry_time else "--:--"
+            })
+        return jsonify(result)
+    finally:
+        db.close()
 
 @app.route('/api/park/<int:car_id>', methods=['DELETE'])
 def remove_car(car_id):

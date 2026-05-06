@@ -1,9 +1,10 @@
+// Функція для отримання списку авто з сервера
 async function fetchCars() {
     try {
         const res = await fetch('http://127.0.0.1:5000/api/cars');
         const cars = await res.json();
 
-        // Знаходимо тіло таблиці саме за id "carsTable"
+        // Знаходимо тіло таблиці
         const tableBody = document.querySelector("#carsTable tbody");
 
         if (!tableBody) {
@@ -11,15 +12,23 @@ async function fetchCars() {
             return;
         }
 
-        tableBody.innerHTML = ""; // Очищуємо стару таблицю
+        tableBody.innerHTML = ""; // Очищуємо таблицю перед оновленням
 
         cars.forEach(car => {
-            const row = `<tr>
-                <td>${car.plate}</td>
-                <td>${car.type === 'car' ? '🚗' : '🚛'}</td>
-                <td><span class="status-parked">${car.status}</span></td>
-                <td><button onclick="removeCar(${car.id})">Виїзд</button></td>
-            </tr>`;
+            // Визначаємо іконку залежно від типу
+            const icon = car.type === 'truck' ? '🚛' : '🚗';
+
+            const row = `
+                <tr>
+                    <td>${car.plate}</td>
+                    <td>${icon}</td>
+                    <td>${car.entry || '--:--'}</td>
+                    <td><span class="status-parked">${car.status}</span></td>
+                    <td>
+                        <button class="btn-exit" onclick="removeCar(${car.id})">Виїзд</button>
+                    </td>
+                </tr>
+            `;
             tableBody.innerHTML += row;
         });
     } catch (err) {
@@ -27,12 +36,16 @@ async function fetchCars() {
     }
 }
 
+// Функція для додавання нового авто
 async function sendData() {
-    const plate = document.getElementById('plate').value;
-    const type = document.getElementById('type').value;
+    const plateInput = document.getElementById('plate');
+    const typeInput = document.getElementById('type');
+
+    const plate = plateInput.value.trim();
+    const type = typeInput.value;
 
     if (!plate) {
-        alert("Введіть номер!");
+        alert("Будь ласка, введіть номер автомобіля!");
         return;
     }
 
@@ -47,19 +60,26 @@ async function sendData() {
         });
 
         if (res.ok) {
-            alert("Авто додано!");
-            document.getElementById('plate').value = "";
-            fetchCars(); // Оновлюємо таблицю відразу
+            alert("Авто успішно додано на парковку!");
+            plateInput.value = ""; // Очищуємо поле вводу
+            fetchCars(); // Оновлюємо таблицю
         } else {
             const errorData = await res.json();
             alert("Помилка: " + errorData.error);
         }
     } catch (err) {
-        alert("Сервер не відповідає. Перевір PyCharm!");
+        alert("Сервер не відповідає. Переконайтеся, що Flask запущений!");
     }
 }
+
+// Функція для оформлення виїзду (видалення)
 async function removeCar(id) {
-    if (!confirm("Підтверджуєте виїзд авто?")) return;
+    // Отримуємо поточний час для повідомлення
+    const now = new Date();
+    const exitTime = now.getHours().toString().padStart(2, '0') + ":" +
+                     now.getMinutes().toString().padStart(2, '0');
+
+    if (!confirm(`Підтвердити виїзд авто о ${exitTime}?`)) return;
 
     try {
         const res = await fetch(`http://127.0.0.1:5000/api/park/${id}`, {
@@ -67,13 +87,16 @@ async function removeCar(id) {
         });
 
         if (res.ok) {
-            fetchCars(); // Оновлюємо таблицю після видалення
+            alert(`Авто покинуло парковку о ${exitTime}`);
+            fetchCars(); // Оновлюємо список
         } else {
-            alert("Не вдалося видалити авто");
+            alert("Не вдалося видалити автомобіль.");
         }
     } catch (err) {
-        console.error("Помилка при видаленні:", err);
+        console.error("Помилка видалення:", err);
+        alert("Помилка з'єднання з сервером.");
     }
 }
-// Завантажуємо список при відкритті сторінки
+
+// Завантажуємо дані відразу при відкритті сторінки
 window.onload = fetchCars;

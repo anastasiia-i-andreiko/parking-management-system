@@ -1,122 +1,150 @@
- :root {
-    --primary: #4f46e5;
-    --primary-hover: #4338ca;
-    --bg: #f8fafc;
-    --card-bg: #ffffff;
-    --text: #1e293b;
-    --danger: #ef4444;
-    --danger-hover: #dc2626;
-    --success: #10b981;
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --main-grad: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --accent: #ff007a;
+    --accent-hover: #ff4d9e;
+    --glass: rgba(255, 255, 255, 0.95);
+    --text-dark: #2d3436;
 }
 
 body {
-    font-family: 'Inter', system-ui, sans-serif;
-    background-color: var(--bg);
-    color: var(--text);
+    font-family: 'Poppins', sans-serif;
+    background: var(--main-grad);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    padding: 40px 20px;
+    align-items: center;
     margin: 0;
+    padding: 20px;
 }
 
 .container {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
     width: 100%;
-    max-width: 800px;
-    background: var(--card-bg);
-    padding: 32px;
-    border-radius: 16px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
 }
 
 h1 {
     text-align: center;
-    font-size: 2rem;
+    color: #4834d4;
+    font-size: 2.5rem;
+    font-weight: 700;
     margin-bottom: 30px;
-    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-/* Група вводу */
+/* Форма вводу */
 .input-group {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 30px;
-    padding: 20px;
-    background: #f1f5f9;
-    border-radius: 12px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 15px;
+    background: rgba(102, 126, 234, 0.1);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 40px;
 }
 
 input, select {
-    flex: 1;
-    padding: 12px 16px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
+    padding: 15px;
+    border: 2px solid transparent;
+    border-radius: 12px;
     font-size: 1rem;
-    outline: none;
-    transition: border-color 0.2s;
+    background: white;
+    transition: 0.3s;
 }
 
 input:focus {
-    border-color: var(--primary);
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(255, 0, 122, 0.2);
+    outline: none;
 }
 
 button {
-    background: var(--primary);
+    background: var(--accent);
     color: white;
     border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: 700;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
 }
 
 button:hover {
-    background: var(--primary-hover);
+    background: var(--accent-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 0, 122, 0.3);
 }
 
-/* Таблиця */
+/* Стилізація таблиці */
 table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    border-collapse: separate;
+    border-spacing: 0 10px;
 }
 
 th {
+    background: #4834d4;
+    color: white;
+    padding: 15px;
     text-align: left;
-    background: #f8fafc;
-    padding: 16px;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
-    border-bottom: 2px solid #e2e8f0;
+    font-size: 0.9rem;
 }
+
+th:first-child { border-radius: 12px 0 0 12px; }
+th:last-child { border-radius: 0 12px 12px 0; }
 
 td {
-    padding: 16px;
-    border-bottom: 1px solid #e2e8f0;
+    background: white;
+    padding: 20px 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.02);
 }
 
-tr:hover {
-    background-color: #f8fafc;
+td:first-child { border-radius: 12px 0 0 12px; border-left: 5px solid #4834d4; }
+td:last-child { border-radius: 0 12px 12px 0; }
+
+tr:hover td {
+    background: #f9f9ff;
+    transform: scale(1.01);
+    transition: 0.2s;
 }
 
+/* Статуси та бейджі */
 .status-parked {
-    background: #dcfce7;
-    color: #166534;
-    padding: 4px 12px;
-    border-radius: 9999px;
-    font-size: 0.875rem;
-    font-weight: 500;
+    background: #ebfaf0;
+    color: #2ecc71;
+    padding: 6px 15px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    border: 1px solid #2ecc71;
 }
 
 .btn-exit {
-    background: transparent;
-    color: var(--danger);
-    border: 1px solid var(--danger);
-    padding: 6px 12px;
+    background: #ff7675;
+    font-size: 0.8rem;
+    padding: 8px 15px;
 }
 
 .btn-exit:hover {
-    background: var(--danger);
-    color: white;
+    background: #d63031;
+}
+
+/* Анімація появи рядків */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+tr {
+    animation: fadeIn 0.5s ease forwards;
 }
