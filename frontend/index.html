@@ -2,31 +2,35 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Парковка 🚗</title>
+    <title>Керування парковкою</title>
     <link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Керування парковкою</h1>
     <div class="container">
-        <input type="text" id="plate" placeholder="Номер авто">
-        <select id="type">
-            <option value="car">🚗 Легкова</option>
-            <option value="motorcycle">🏍️ Мотоцикл</option>
-        </select>
-        <button id="addBtn">Додати авто</button>
+        <h1>Парковка 24/7</h1>
+
+        <div class="input-group">
+            <input type="text" id="plate" placeholder="Введіть номер авто">
+            <select id="type">
+                <option value="car">Легкове</option>
+                <option value="truck">Вантажівка</option>
+            </select>
+            <button onclick="sendData()">ДОДАТИ АВТО</button>
+        </div>
+
+        <table id="carsTable">
+            <thead>
+                <tr>
+                    <th>НОМЕР</th>
+                    <th>ТИП</th>
+                    <th>СТАТУС</th>
+                    <th>ДІЯ</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
-    <table id="carsTable">
-        <thead>
-            <tr>
-                <th>Номер</th>
-                <th>Тип</th>
-                <th>Статус</th>
-                <th>Дія / Час</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
     <script src="app.js"></script>
 </body>
 </html>
