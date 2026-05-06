@@ -2,33 +2,40 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Керування парковкою</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Parking Control 🅿️</title>
     <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>Парковка 24/7</h1>
+        <h1>Smart Parking</h1>
 
         <div class="input-group">
-            <input type="text" id="plate" placeholder="Введіть номер авто">
+            <input type="text" id="plate" placeholder="Номер (напр. AA1111BB)">
             <select id="type">
-                <option value="car">Легкове</option>
-                <option value="truck">Вантажівка</option>
+                <option value="car">Легкове 🚗</option>
+                <option value="truck">Вантажівка 🚛</option>
+                <option value="motorcycle">Мотоцикл 🏍️</option>
+                <option value="bus">Автобус 🚌</option>
+                <option value="bicycle">Самокат/Вело 🚲</option>
+                <option value="electro">Електромобіль ⚡</option>
             </select>
-            <button onclick="sendData()">ДОДАТИ АВТО</button>
+            <button onclick="sendData()">ДОДАТИ</button>
         </div>
 
         <table id="carsTable">
             <thead>
-    <tr>
-        <th>НОМЕР</th>
-        <th>ТИП</th>
-        <th>ЗАЇЗД</th> <th>СТАТУС</th>
-        <th>ДІЯ</th>
-    </tr>
-</thead>
-            <tbody></tbody>
+                <tr>
+                    <th>НОМЕР</th>
+                    <th>ТИП</th>
+                    <th>ЗАЇЗД</th>
+                    <th>СТАТУС</th>
+                    <th>ДІЯ</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
         </table>
     </div>
     <script src="app.js"></script>

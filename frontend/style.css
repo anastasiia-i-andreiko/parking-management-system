@@ -1,11 +1,8 @@
- @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
 :root {
     --main-grad: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --accent: #ff007a;
     --accent-hover: #ff4d9e;
     --glass: rgba(255, 255, 255, 0.95);
-    --text-dark: #2d3436;
 }
 
 body {
@@ -32,62 +29,52 @@ body {
 h1 {
     text-align: center;
     color: #4834d4;
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 30px;
+    font-size: 2.2rem;
     text-transform: uppercase;
     letter-spacing: 2px;
+    margin-bottom: 30px;
 }
 
-/* Форма вводу */
 .input-group {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 15px;
+    display: flex;
+    gap: 12px;
     background: rgba(102, 126, 234, 0.1);
-    padding: 25px;
+    padding: 20px;
     border-radius: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 input, select {
-    padding: 15px;
+    flex: 1;
+    padding: 12px;
     border: 2px solid transparent;
     border-radius: 12px;
     font-size: 1rem;
-    background: white;
+    outline: none;
     transition: 0.3s;
 }
 
-input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 15px rgba(255, 0, 122, 0.2);
-    outline: none;
-}
+input:focus { border-color: var(--accent); }
 
 button {
     background: var(--accent);
     color: white;
     border: none;
-    padding: 15px;
+    padding: 12px 25px;
     border-radius: 12px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
+    transition: 0.3s;
 }
 
 button:hover {
-    background: var(--accent-hover);
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(255, 0, 122, 0.3);
 }
 
-/* Стилізація таблиці */
 table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 10px;
+    border-collapse: collapse;
 }
 
 th {
@@ -95,35 +82,22 @@ th {
     color: white;
     padding: 15px;
     text-align: left;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
-
-th:first-child { border-radius: 12px 0 0 12px; }
-th:last-child { border-radius: 0 12px 12px 0; }
 
 td {
+    padding: 15px;
     background: white;
-    padding: 20px 15px;
-    font-size: 1.1rem;
+    border-bottom: 1px solid #f1f5f9;
     font-weight: 600;
-    color: var(--text-dark);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.02);
 }
 
-td:first-child { border-radius: 12px 0 0 12px; border-left: 5px solid #4834d4; }
-td:last-child { border-radius: 0 12px 12px 0; }
+tr:hover td { background: #f9f9ff; }
 
-tr:hover td {
-    background: #f9f9ff;
-    transform: scale(1.01);
-    transition: 0.2s;
-}
-
-/* Статуси та бейджі */
 .status-parked {
     background: #ebfaf0;
     color: #2ecc71;
-    padding: 6px 15px;
+    padding: 6px 12px;
     border-radius: 50px;
     font-size: 0.8rem;
     border: 1px solid #2ecc71;
@@ -131,20 +105,8 @@ tr:hover td {
 
 .btn-exit {
     background: #ff7675;
-    font-size: 0.8rem;
-    padding: 8px 15px;
+    padding: 6px 12px;
+    font-size: 0.75rem;
 }
 
-.btn-exit:hover {
-    background: #d63031;
-}
-
-/* Анімація появи рядків */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-tr {
-    animation: fadeIn 0.5s ease forwards;
-}
+.btn-exit:hover { background: #d63031; }
