@@ -7,7 +7,7 @@ import logic
 # Автоматичне створення таблиць у базі даних (якщо їх ще немає)
 models.Base.metadata.create_all(bind=engine)
 
-app = Flask(name)
+app = Flask(__name__)
 CORS(app)
 
 
@@ -54,5 +54,5 @@ def exit_car(car_id):
     return jsonify({"error": "Авто не знайдено або вже виїхало"}), 404
 
 
-if name == "main":
+if name == "__main__":
     app.run(debug=True)
