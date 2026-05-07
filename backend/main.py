@@ -1,9 +1,13 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from database import SessionLocal
+from database import SessionLocal, engine
+import models
 import logic
 
-app = Flask(__name__)
+# Автоматичне створення таблиць у базі даних (якщо їх ще немає)
+models.Base.metadata.create_all(bind=engine)
+
+app = Flask(name)
 CORS(app)
 
 
@@ -24,18 +28,22 @@ def get_cars():
     search = request.args.get('search')
     db = SessionLocal()
     cars = logic.get_filtered_cars(db, search)
+    
+    # Форматуємо дату прямо тут, щоб фронтенд отримав красивий текст
     result = [{
         "id": c.id,
         "plate": c.plate_number,
         "type": c.vehicle_type,
-        "entry": c.entry_time.isoformat(),
+        "entry": c.entry_time.strftime("%d.%m.%Y %H:%M") if c.entry_time else '--:--',
         "status": c.status
     } for c in cars]
+    
     db.close()
     return jsonify(result)
 
 
-@app.route('/api/exit/<int:car_id>', methods=['PATCH'])
+# Змінено шлях та метод під те, що очікує app.js (DELETE /api/park/<id>)
+@app.route('/api/park/<int:car_id>', methods=['DELETE'])
 def exit_car(car_id):
     db = SessionLocal()
     success = logic.mark_exit(db, car_id)
@@ -46,5 +54,5 @@ def exit_car(car_id):
     return jsonify({"error": "Авто не знайдено або вже виїхало"}), 404
 
 
-if __name__ == "__main__":
+if name == "main":
     app.run(debug=True)
