@@ -54,5 +54,5 @@ def exit_car(car_id):
     return jsonify({"error": "Авто не знайдено або вже виїхало"}), 404
 
 
-if name == "__main__":
+if __name__ == "__main__":
     app.run(debug=True)
